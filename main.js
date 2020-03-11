@@ -38,12 +38,19 @@ function render(books) {
     let title = document.createElement('td');
     let author = document.createElement('td');
     let pages = document.createElement('td');
+    let deleteCol = document.createElement('td');
+    let deleteButton = document.createElement('button');
+    deleteButton.innerText = "Delete";
+    deleteButton.setAttribute('data-index', index.toString());
+    deleteButton.setAttribute('onclick', 'deleteBook(event)');
     title.innerText = book.title;
     author.innerText = book.author;
     pages.innerText = book.pages;
+    deleteCol.appendChild(deleteButton);
     row.appendChild(title);
     row.appendChild(author);
     row.appendChild(pages);
+    row.appendChild(deleteCol);
     library.appendChild(row);
   });
 }
@@ -64,8 +71,17 @@ function addBookToLibrary(title, author, pages) {
   myLibrary.push(book);
 }
 
+function deleteBook(e){
+  const index = Number(e.target.getAttribute('data-index'));
+  const book = document.querySelector(`#library tr[data-index="${index}"]`);
+  library.removeChild(book);
+  myLibrary.splice(index, 1);
+  console.log(myLibrary);
+}
+
 function sendData(event) {
   addBookToLibrary(title.value, author.value, pages.value);
   render(myLibrary);
   cancelRequest();
+  console.log(myLibrary);
 }
