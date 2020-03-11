@@ -16,7 +16,6 @@ function render(books) {
     let title = document.createElement('td');
     let author = document.createElement('td');
     let pages = document.createElement('td');
-    // { title: title.innerText, author: author.innerText, pages: pages.innerText } = book;
     title.innerText = book.title;
     author.innerText = book.author;
     pages.innerText = book.pages;
