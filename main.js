@@ -11,6 +11,11 @@ function Book(title, author, pages) {
   this.title = title;
   this.author = author;
   this.pages = pages;
+  this.read = false;
+}
+
+Book.prototype.toggleRead = function(){
+  this.read = !this.read;
 }
 
 function isBookIncluded(index) {
@@ -43,14 +48,21 @@ function render(books) {
     deleteButton.innerText = "Delete";
     deleteButton.setAttribute('data-index', index.toString());
     deleteButton.setAttribute('onclick', 'deleteBook(event)');
+    let readCol = document.createElement('td');
+    let toggleButton = document.createElement('input');
+    toggleButton.setAttribute('type', 'checkbox');
+    toggleButton.setAttribute('data-index', index.toString());
+    toggleButton.setAttribute('onclick', 'toggleRead(event)');
     title.innerText = book.title;
     author.innerText = book.author;
     pages.innerText = book.pages;
     deleteCol.appendChild(deleteButton);
+    readCol.appendChild(toggleButton);
     row.appendChild(title);
     row.appendChild(author);
     row.appendChild(pages);
     row.appendChild(deleteCol);
+    row.appendChild(readCol);
     library.appendChild(row);
   });
 }
@@ -95,6 +107,14 @@ function deleteBook(e){
   updateIndices(remainder);
   library.removeChild(book);
   myLibrary.splice(index, 1);
+}
+
+function toggleRead(e){
+  const index = Number(e.target.getAttribute('data-index'));
+  const book = myLibrary[index];
+  book.toggleRead();
+  e.target.checked = book.read;
+  console.log(myLibrary);
 }
 
 function sendData(event) {
