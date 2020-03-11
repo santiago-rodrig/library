@@ -71,17 +71,34 @@ function addBookToLibrary(title, author, pages) {
   myLibrary.push(book);
 }
 
+function updateIndices(remainder) {
+  let newIndex, button;
+
+  remainder.forEach(book => {
+    newIndex = Number(book.getAttribute('data-index')) - 1;
+    button = book.lastChild.firstChild;
+    button.setAttribute('data-index', newIndex.toString());
+    book.setAttribute('data-index', newIndex.toString());
+  });
+}
+
 function deleteBook(e){
   const index = Number(e.target.getAttribute('data-index'));
   const book = document.querySelector(`#library tr[data-index="${index}"]`);
+  const books = document.querySelectorAll('#library tr');
+  const remainder = [];
+
+  for (let i = index + 1; i < books.length; i++) {
+    remainder.push(books[i]);
+  }
+
+  updateIndices(remainder);
   library.removeChild(book);
   myLibrary.splice(index, 1);
-  console.log(myLibrary);
 }
 
 function sendData(event) {
   addBookToLibrary(title.value, author.value, pages.value);
   render(myLibrary);
   cancelRequest();
-  console.log(myLibrary);
 }
