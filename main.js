@@ -14,7 +14,12 @@ function Book(title, author, pages) {
   this.read = false;
 }
 
-Book.prototype.toggleRead = function(){
+Book.prototype.toggleRead = function(index) {
+  let updated = localStorage.getItem(index.toString());
+  updated = updated.split(',');
+  updated[updated.length - 1] = ' ' + (!this.read).toString();
+  updated = updated.join(',');
+  localStorage.setItem(index.toString(), updated);
   this.read = !this.read;
 }
 
@@ -53,6 +58,7 @@ function render(books) {
     toggleButton.setAttribute('type', 'checkbox');
     toggleButton.setAttribute('data-index', index.toString());
     toggleButton.setAttribute('onclick', 'toggleRead(event)');
+    toggleButton.checked = book.read;
     title.innerText = book.title;
     author.innerText = book.author;
     pages.innerText = book.pages;
@@ -80,22 +86,37 @@ function clearFields() {
 
 function addBookToLibrary(title, author, pages) {
   let book = new Book(title, author, pages);
+  // saves to the local storage the new book added from the ui
+  localStorage.setItem(myLibrary.length.toString(), `${title}, ${author}, ${pages}, false`);
   myLibrary.push(book);
 }
 
 function updateIndices(remainder) {
-  let newIndex, button;
+  let newIndex, button, currentItemValue;
 
   remainder.forEach(book => {
     newIndex = Number(book.getAttribute('data-index')) - 1;
     button = book.lastChild.firstChild;
     button.setAttribute('data-index', newIndex.toString());
     book.setAttribute('data-index', newIndex.toString());
+    // Here we track the value of the item we want to decrement the
+    // index by one
+    currentItemValue = localStorage.getItem((newIndex + 1).toString())
+    // and then we just set the decremented index value to the
+    // nex item value
+    localStorage.setItem(newIndex.toString(), currentItemValue);
   });
+
+  // the new index is out of the scope of the forEach loop,
+  // this is why it will still hold the value set in the last
+  // iteration. And if we don't remove the last item at the
+  // local storage there will be an extra item
+  localStorage.removeItem(newIndex.toString());
 }
 
 function deleteBook(e){
   const index = Number(e.target.getAttribute('data-index'));
+  localStorage.removeItem(index.toString());
   const book = document.querySelector(`#library tr[data-index="${index}"]`);
   const books = document.querySelectorAll('#library tr');
   const remainder = [];
@@ -109,12 +130,11 @@ function deleteBook(e){
   myLibrary.splice(index, 1);
 }
 
-function toggleRead(e){
+function toggleRead(e) {
   const index = Number(e.target.getAttribute('data-index'));
   const book = myLibrary[index];
-  book.toggleRead();
+  book.toggleRead(index);
   e.target.checked = book.read;
-  console.log(myLibrary);
 }
 
 function sendData(event) {
@@ -122,3 +142,32 @@ function sendData(event) {
   render(myLibrary);
   cancelRequest();
 }
+
+function addBookFromString(string) {
+  const [title, author, pages, read] = string.split(',').map(elem => elem.trim());
+  const book = new Book(title, author, pages);
+
+  switch (read) {
+    case 'true':
+      book.read = true;
+      break;
+    default:
+      book.read = false;
+      break;
+  }
+
+  myLibrary.push(book);
+}
+
+function populateFromLocalStorate(array) {
+  let str;
+
+  for (let i = 0; i < localStorage.length; i++) {
+    str = localStorage.getItem(i.toString());
+    addBookFromString(str);
+  }
+}
+
+console.log(myLibrary);
+populateFromLocalStorate(myLibrary);
+render(myLibrary);
