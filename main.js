@@ -10,8 +10,7 @@ function Book(title, author, pages) {
 
 function render(books) {
   let library = document.getElementById('library');
-
-  books.forEach(book => {
+  books.forEach((book, index) => {
     let row = document.createElement('tr');
     let title = document.createElement('td');
     let author = document.createElement('td');
@@ -22,6 +21,7 @@ function render(books) {
     row.appendChild(title);
     row.appendChild(author);
     row.appendChild(pages);
+    row.setAttribute('data-index', index);
     library.appendChild(row);
   });
 }
@@ -29,6 +29,14 @@ function render(books) {
 function addBookToLibrary(title, author, pages) {
   let book = new Book(title, author, pages);
   myLibrary.push(book);
+}
+
+function sendData(){
+  const title = document.getElementById('title').value;
+  const author = document.getElementById('author').value;
+  const pages = document.getElementById('pages').value;
+  addBookToLibrary(title, author, pages);
+  render(myLibrary);
 }
 
 addBookToLibrary('Red book', 'Sharmarke', 245);
