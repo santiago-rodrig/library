@@ -1,6 +1,11 @@
 'use strict';
 
 let myLibrary = [];
+const library = document.getElementById('library');
+const bookForm = document.getElementById('newBookForm');
+const title = document.getElementById('title');
+const author = document.getElementById('author');
+const pages = document.getElementById('pages');
 
 function Book(title, author, pages) {
   this.title = title;
@@ -8,10 +13,28 @@ function Book(title, author, pages) {
   this.pages = pages;
 }
 
+function isBookIncluded(index) {
+  let bookRows = document.querySelectorAll('#library tr');
+  let bookRow;
+
+  for (let i = 0; i < bookRows.length; i++) {
+    bookRow = bookRows[i];
+    if (bookRow.getAttribute('data-index') == index) return true;
+  }
+
+  return false;
+}
+
+function toggleVision() {
+  bookForm.style.visibility = 'visible';
+}
+
 function render(books) {
-  let library = document.getElementById('library');
   books.forEach((book, index) => {
+    if (isBookIncluded(index)) return;
+
     let row = document.createElement('tr');
+    row.setAttribute('data-index', index.toString());
     let title = document.createElement('td');
     let author = document.createElement('td');
     let pages = document.createElement('td');
@@ -21,9 +44,19 @@ function render(books) {
     row.appendChild(title);
     row.appendChild(author);
     row.appendChild(pages);
-    row.setAttribute('data-index', index);
     library.appendChild(row);
   });
+}
+
+function cancelRequest(event) {
+  bookForm.style.visibility = 'hidden';
+  clearFields();
+}
+
+function clearFields() {
+  title.value = '';
+  author.value = '';
+  pages.value = '';
 }
 
 function addBookToLibrary(title, author, pages) {
@@ -31,16 +64,8 @@ function addBookToLibrary(title, author, pages) {
   myLibrary.push(book);
 }
 
-function sendData(){
-  const title = document.getElementById('title').value;
-  const author = document.getElementById('author').value;
-  const pages = document.getElementById('pages').value;
-  addBookToLibrary(title, author, pages);
+function sendData(event) {
+  addBookToLibrary(title.value, author.value, pages.value);
   render(myLibrary);
+  cancelRequest();
 }
-
-addBookToLibrary('Red book', 'Sharmarke', 245);
-addBookToLibrary('Orange book', 'Santiago', 415);
-addBookToLibrary('Purple book', 'Samuel', 525);
-
-render(myLibrary);

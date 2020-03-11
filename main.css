@@ -1,8 +1,9 @@
 #newBookForm {
-    margin: 0 auto;
-    width: 200px;
+  margin: 0 auto;
+  width: 200px;
+  visibility: hidden;
 }
 
 body {
-    min-height: 100vh;
+  min-height: 100vh;
 }

@@ -16,7 +16,7 @@
       <tbody id="library">
       </tbody>
     </table>
-    <button>Add New Book</button>
+    <button type="button" role="button" id="newbook" onclick="toggleVision()">Add New Book</button>
     <form id="newBookForm">
       <div>
         <label for="name">Name of Book:</label>
@@ -31,6 +31,7 @@
         <input type="number" id="pages" required>
       </div> 
       <input type="button" onclick="sendData()" value="Add">
+      <input type="button" onclick="cancelRequest()" value="Cancel">
     </form>
     <script type="text/javascript"  src="main.js"></script>
   </body>
