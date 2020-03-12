@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="assets/stylesheets/main.css" type="text/css">
   </head>
   <body>
     <table>
@@ -18,8 +18,8 @@
       <tbody id="library">
       </tbody>
     </table>
-    <button type="button" role="button" id="newbook" onclick="toggleVision()">Add New Book</button>
-    <form id="newBookForm">
+    <button type="button" role="button" id="new-book" onclick="toggleNewBookForm()">Add New Book</button>
+    <form id="new-book-form">
       <div>
         <label for="name">Name of Book:</label>
         <input type="text" id="title" required>
@@ -31,10 +31,12 @@
       <div>
         <label for="pages">Number of pages:</label>
         <input type="number" id="pages" required>
-      </div> 
-      <input type="button" onclick="sendData()" value="Add">
-      <input type="button" onclick="cancelRequest()" value="Cancel">
+      </div>
+      <input type="button" onclick="createBook()" value="Add">
+      <input type="button" onclick="clearFieldsAndHide()" value="Cancel">
     </form>
-    <script type="text/javascript"  src="main.js"></script>
+    <script type="text/javascript" src="assets/scripts/functions/book.js"></script>
+    <script type="text/javascript" src="assets/scripts/functions/book_management.js"></script>
+    <script type="text/javascript"  src="assets/scripts/main.js"></script>
   </body>
 </html>

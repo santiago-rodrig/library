@@ -1,7 +1,6 @@
-#newBookForm {
+#new-book-form {
   margin: 0 auto;
   width: 200px;
-  visibility: hidden;
 }
 
 body {
