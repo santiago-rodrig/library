@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleFormButton = document.getElementById('new-book');
   const createBookButton = document.getElementById('new-book-create');
   const cancelBookButton = document.getElementById('new-book-cancel');
-  populateBookShelfFromStorage();
   newBookForm.style.display = 'none';
+  populateBookShelfFromStorage();
   toggleFormButton.addEventListener('click', toggleNewBookForm);
   createBookButton.addEventListener('click', createBook);
   cancelBookButton.addEventListener('click', clearFieldsAndHide);

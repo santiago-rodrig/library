@@ -1,44 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Library</title>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<link rel="stylesheet" href="main.css" type="text/css">
-	</head>
-	<body>
-		<table>
-			<thead>
-				<th>Title</th>
-				<th>Author</th>
-				<th>Pages</th>
-				<th>Actions</th>
-				<th>Read it?</th>
-			</thead>
-			<tbody id="library">
-			</tbody>
-		</table>
-		<button type="button" role="button" id="new-book">Add New Book</button>
-		<form id="new-book-form">
-			<div>
-				<label for="name">Name of Book:</label>
-				<input type="text" id="title" required>
-			</div>
-			<div>
-				<label for="author">Author of Book:</label>
-				<input type="text" id="author" required>
-			</div>
-			<div>
-				<label for="pages">Number of pages:</label>
-				<input type="number" id="pages" required>
-			</div>
-			<input type="button" id='new-book-create' value="Add">
-			<input type="button" id='new-book-cancel' value="Cancel">
-		</form>
-		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-		<script src="main.js"></script>
-	</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lobster|Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css" type="text/css">
+  </head>
+  <body>
+    <div class="bg-info left-info">
+      <h1 class="text-light">Amazing title for the Bookshelf</h1>
+      <p class="lead mt-4 mb-0 text-light">
+      Want to keep track of the books you already read? Or the books that
+      you are currently reading? Wait no more! Using this easy to use
+      application you can do so in just a couple of steps! First, you click
+      the <strong>New Book</strong> button, fill in the book information
+      in the form, and click the green <strong>Add</strong> button, you
+      will notice that the book gets added to the books' table at the top,
+      and now you are tracking that book!
+      </p>
+      <p class="at-bottom"><a class="text-dark" href="https://github.com/santiago-rodrig/library" target="_blank">Take a look to the source code!</a></p>
+    </div>
+    <div class="right-content">
+      <div>
+        <table class="table table-bordered center-x">
+          <thead class="thead-dark">
+            <th class="text-center">Title</th>
+            <th class="text-center">Author</th>
+            <th class="text-center">Pages</th>
+            <th class="text-center">Actions</th>
+            <th class="text-center">Already Read?</th>
+          </thead>
+          <tbody id="library">
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-4">
+        <button type="button" role="button" id="new-book" class="btn btn-lg btn-primary mt-3">New Book</button>
+      </div>
+      <div class="bg-dark form-container mt-4">
+        <form id="new-book-form">
+          <div class="form-group">
+            <label for="name" class="text-light">Name</label>
+            <input type="text" id="title" class="form-control form-control-lg" required>
+          </div>
+          <div class="form-group">
+            <label for="author" class="text-light">Author</label>
+            <input type="text" id="author" class="form-control form-control-lg" required>
+          </div>
+          <div class="form-group">
+            <label for="pages" class="text-light">Number of pages:</label>
+            <input type="number" id="pages" class="form-control form-control-lg" required>
+          </div>
+          <div class="form-group center-both mt-4">
+            <input type="submit" id="new-book-create" class="btn btn-success mr-2" value="Add">
+            <input type="button" id="new-book-cancel" class="btn btn-secondary" value="Cancel">
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+  </body>
 </html>

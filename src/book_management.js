@@ -55,16 +55,25 @@ function updateReadStatusInStorage(index) {
 function appendReadToggleToRow(bookRow, newBook = true) {
   const toggleReadData = document.createElement('td');
   const toggleReadCheckbox = document.createElement('input');
+  const checkboxForm = document.createElement('form');
+  const formGroup = document.createElement('div');
+  formGroup.classList.add('form-group');
+  formGroup.classList.add('center-both');
   toggleReadCheckbox.type = 'checkbox';
   toggleReadCheckbox.checked = !newBook;
+  toggleReadCheckbox.classList.add('form-group');
+  toggleReadCheckbox.classList.add('no-margin-bottom');
+  checkboxForm.classList.add('mt-2');
+  checkboxForm.appendChild(formGroup);
+  formGroup.appendChild(toggleReadCheckbox);
 
   toggleReadCheckbox.addEventListener('click', (e) => {
-    const bookRow = e.target.parentNode.parentNode;
+    const bookRow = e.target.parentNode.parentNode.parentNode.parentNode;
     const index = Number(bookRow.getAttribute('data-index'));
     updateReadStatusInStorage(index);
   });
 
-  toggleReadData.appendChild(toggleReadCheckbox);
+  toggleReadData.appendChild(checkboxForm);
   bookRow.appendChild(toggleReadData);
 
   return null;
@@ -91,6 +100,11 @@ function appendDeleteButtonToRow(bookRow) {
   const deleteActionButton = document.createElement('button');
   deleteActionButton.type = 'button';
   deleteActionButton.innerText = 'Delete';
+  deleteActionButton.style.display = 'block';
+  deleteActionButton.classList.add('btn');
+  deleteActionButton.classList.add('btn-sm');
+  deleteActionButton.classList.add('btn-danger');
+  deleteActionButton.classList.add('center-x');
 
   deleteActionButton.addEventListener('click', (e) => {
     const bookRow = e.target.parentNode.parentNode;
