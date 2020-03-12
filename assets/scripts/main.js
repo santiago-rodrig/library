@@ -1,22 +1,30 @@
-'use strict';
+import {
+  setBookFromForm,
+  createBook,
+  appendBookToBookShelf,
+  appendToStorage,
+  toggleNewBookForm,
+  bookRowFromBook,
+  setDataText,
+  appendDataToRow,
+  appendDeleteButtonToRow,
+  updateIndices,
+  appendReadToggleToRow,
+  updateReadStatusInStorage,
+  populateBookShelfFromStorage,
+  createBookFromString,
+  clearFields,
+  clearFieldsAndHide
+} from './functions/book_management.js';
 
-let myLibrary = [];
-const bookShelf = document.getElementById('library');
-const newBookForm = document.getElementById('new-book-form');
-newBookForm.style.display = 'none';
-
-function appendToLibrary(book) {
-  myLibrary.push(book);
-
-  return null;
-}
-
-function libraryLength() {
-  return myLibrary.length;
-}
-
-function getLibrary() {
-  return myLibrary;
-}
-
-populateBookShelfFromStorage();
+document.addEventListener('DOMContentLoaded', () => {
+  const newBookForm = document.getElementById('new-book-form');
+  const toggleFormButton = document.getElementById('new-book');
+  const createBookButton = document.getElementById('new-book-create');
+  const cancelBookButton = document.getElementById('new-book-cancel');
+  populateBookShelfFromStorage();
+  newBookForm.style.display = 'none';
+  toggleFormButton.addEventListener('click', toggleNewBookForm);
+  createBookButton.addEventListener('click', createBook);
+  cancelBookButton.addEventListener('click', clearFieldsAndHide);
+});

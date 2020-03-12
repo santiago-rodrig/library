@@ -15,7 +15,7 @@ Book.prototype = {
   },
 
   isInLibrary(library) {
-    return library.includes(this)
+    return library.includes(this);
   },
 
   appendToLibrary(library) {
@@ -23,8 +23,10 @@ Book.prototype = {
   },
 
   removeFromLibrary(library) {
-    let index = library.indexOf(this);
+    const index = library.indexOf(this);
 
     return library.slice(0, index).concat(library.slice(index + 1));
-  }
-}
+  },
+};
+
+export { Book };

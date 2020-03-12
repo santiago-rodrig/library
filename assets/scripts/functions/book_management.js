@@ -1,3 +1,5 @@
+import { Book } from './book.js';
+
 function setBookFromForm(newBookForm) {
   const title = newBookForm.querySelector('#title').value;
   const author = newBookForm.querySelector('#author').value;
@@ -11,17 +13,22 @@ function createBook() {
   const newBookForm = document.getElementById('new-book-form');
   const book = setBookFromForm(newBookForm);
   const bookShelf = document.getElementById('library');
-  appendBookToBookShelf(bookShelf, book);
+  appendBookToBookShelf(bookShelf, book, localStorage.length);
   clearFieldsAndHide();
 
   return null;
 }
 
-function appendBookToBookShelf(bookShelf, book, index=null, alreadyStored=false) {
+function appendBookToBookShelf(
+  bookShelf,
+  book,
+  libraryLength = null,
+  index = null,
+  alreadyStored = false
+) {
   if (!alreadyStored) {
-    appendToStorage(book);
-    appendToLibrary(book);
-    bookShelf.appendChild(bookRowFromBook(book, libraryLength() - 1));
+    appendToStorage(book, libraryLength);
+    bookShelf.appendChild(bookRowFromBook(book, libraryLength));
   } else {
     bookShelf.appendChild(bookRowFromBook(book, index, !book.read));
   }
@@ -29,15 +36,15 @@ function appendBookToBookShelf(bookShelf, book, index=null, alreadyStored=false)
   return null;
 }
 
-function appendToStorage(book) {
+function appendToStorage(book, libraryLength) {
   const str = `${book.title},${book.author},${book.pages},${book.read}`;
-  localStorage.setItem(libraryLength().toString(), str);
+  localStorage.setItem(libraryLength.toString(), str);
 
   return null;
 }
 
 function toggleNewBookForm() {
-  let newBookForm = document.getElementById('new-book-form');
+  const newBookForm = document.getElementById('new-book-form');
   const displayValue = newBookForm.style.display;
   const isNone = displayValue == 'none';
   newBookForm.style.display = isNone ? 'block' : 'none';
@@ -45,12 +52,12 @@ function toggleNewBookForm() {
   return null;
 }
 
-function bookRowFromBook(book, libraryLength, newBook=true) {
-  let bookRow = document.createElement('tr');
-  let titleData = document.createElement('td');
-  let authorData = document.createElement('td');
-  let pagesData = document.createElement('td');
-  let dataList = [titleData, authorData, pagesData];
+function bookRowFromBook(book, libraryLength, newBook = true) {
+  const bookRow = document.createElement('tr');
+  const titleData = document.createElement('td');
+  const authorData = document.createElement('td');
+  const pagesData = document.createElement('td');
+  const dataList = [titleData, authorData, pagesData];
   bookRow.setAttribute('data-index', libraryLength.toString());
   setDataText(dataList, book);
   appendDataToRow(bookRow, dataList, newBook);
@@ -68,7 +75,7 @@ function setDataText(dataList, book) {
   return null;
 }
 
-function appendDataToRow(bookRow, dataList, newBook=true) {
+function appendDataToRow(bookRow, dataList, newBook = true) {
   dataList.forEach(data => {
     bookRow.appendChild(data);
   });
@@ -80,18 +87,15 @@ function appendDataToRow(bookRow, dataList, newBook=true) {
 }
 
 function appendDeleteButtonToRow(bookRow) {
-  let deleteActionData = document.createElement('td');
-  let deleteActionButton = document.createElement('button');
+  const deleteActionData = document.createElement('td');
+  const deleteActionButton = document.createElement('button');
   deleteActionButton.type = 'button';
   deleteActionButton.innerText = 'Delete';
 
   deleteActionButton.addEventListener('click', (e) => {
-    let bookRow = e.target.parentNode.parentNode;
-    let index = Number(bookRow.getAttribute('data-index'));
-    let library = getLibrary();
-    library.splice(index, 1);
+    const bookRow = e.target.parentNode.parentNode;
+    const index = Number(bookRow.getAttribute('data-index'));
     e.target.parentNode.parentNode.parentNode.removeChild(bookRow);
-    localStorage.removeItem(index.toString());
     updateIndices(index);
 
     return null;
@@ -104,39 +108,31 @@ function appendDeleteButtonToRow(bookRow) {
 }
 
 function updateIndices(index) {
-  let library = getLibrary();
   let bookRows = document.querySelectorAll('#library tr');
-  let currentIndex, currentValue, lastIndex;
+  let currentValue, bookRow;
 
-  for (let i = index; i < bookRows.length; i++) {
-    currentIndex = Number(bookRows[i].getAttribute('data-index'));
-    bookRows[i].setAttribute('data-index', (currentIndex - 1).toString());
+  for (let i = index + 1; i < localStorage.length; i++) {
+    console.log(i);
+    currentValue = localStorage.getItem(i.toString());
+    bookRow = document.querySelector(`tr[data-index="${i}"]`);
+    bookRow.setAttribute('data-index', (i - 1).toString());
+    localStorage.setItem((i - 1).toString(), currentValue);
   }
 
-  for (let i = index; i < bookRows.length - 1; i++) {
-    currentValue = localStorage.getItem((i + 1).toString());
-    localStorage.setItem(i.toString(), currentValue);
-    lastIndex = i + 1;
-  }
-
-  localStorage.removeItem(lastIndex.toString());
+  localStorage.removeItem((localStorage.length - 1).toString());
 
   return null;
 }
 
-function appendReadToggleToRow(bookRow, newBook=true) {
-  let library = getLibrary();
-  let toggleReadData = document.createElement('td');
-  let toggleReadCheckbox = document.createElement('input');
+function appendReadToggleToRow(bookRow, newBook = true) {
+  const toggleReadData = document.createElement('td');
+  const toggleReadCheckbox = document.createElement('input');
   toggleReadCheckbox.type = 'checkbox';
-  toggleReadCheckbox.checked = newBook ? false : true;
+  toggleReadCheckbox.checked = !newBook;
 
   toggleReadCheckbox.addEventListener('click', (e) => {
     const bookRow = e.target.parentNode.parentNode;
     const index = Number(bookRow.getAttribute('data-index'));
-    let library = getLibrary();
-    library[index].toggleRead();
-    e.target.checked = e.target.checked ? true : false;
     updateReadStatusInStorage(index);
   });
 
@@ -154,11 +150,11 @@ function updateReadStatusInStorage(index) {
   bookValues = bookValues.join(',');
   localStorage.setItem(index.toString(), bookValues);
 
-   return null;
+  return null;
 }
 
 function populateBookShelfFromStorage() {
-  let library = getLibrary();
+  let library = [];
   let bookObject;
   const bookShelf = document.getElementById('library');
 
@@ -171,7 +167,7 @@ function populateBookShelfFromStorage() {
   }
 
   library.forEach((book, index) => {
-    appendBookToBookShelf(bookShelf, book, index, true);
+    appendBookToBookShelf(bookShelf, book, null, index, true);
   });
 
   return null;
@@ -183,18 +179,18 @@ function createBookFromString(string) {
   const author = bookValues[1];
   const pages = Number(bookValues[2]);
   const isFalse = bookValues[3] == 'false';
-  const read = isFalse ? false : true;
-  let book = new Book(title, author, pages);
+  const read = !isFalse;
+  const book = new Book(title, author, pages);
   book.read = read;
 
   return book;
 }
 
 function clearFields() {
-  let bookShelf = document.getElementById('new-book-form');
-  let titleField = bookShelf.querySelector('#title');
-  let authorField = bookShelf.querySelector('#author');
-  let pagesField = bookShelf.querySelector('#pages');
+  const bookShelf = document.getElementById('new-book-form');
+  const titleField = bookShelf.querySelector('#title');
+  const authorField = bookShelf.querySelector('#author');
+  const pagesField = bookShelf.querySelector('#pages');
   titleField.value = '';
   authorField.value = '';
   pagesField.value = '';
@@ -208,3 +204,22 @@ function clearFieldsAndHide() {
 
   return null;
 }
+
+export {
+  setBookFromForm,
+  createBook,
+  appendBookToBookShelf,
+  appendToStorage,
+  toggleNewBookForm,
+  bookRowFromBook,
+  setDataText,
+  appendDataToRow,
+  appendDeleteButtonToRow,
+  updateIndices,
+  appendReadToggleToRow,
+  updateReadStatusInStorage,
+  populateBookShelfFromStorage,
+  createBookFromString,
+  clearFields,
+  clearFieldsAndHide
+};
