@@ -10,8 +10,6 @@ Book.prototype = {
 
   toggleRead() {
     this.read = !this.read;
-
-    return null;
   },
 
   isInLibrary(library) {
