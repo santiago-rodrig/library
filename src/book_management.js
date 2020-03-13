@@ -61,6 +61,8 @@ function appendReadToggleToRow(bookRow, newBook = true) {
   formGroup.classList.add('center-both');
   toggleReadCheckbox.type = 'checkbox';
   toggleReadCheckbox.checked = !newBook;
+  toggleReadCheckbox.name = 'read';
+  toggleReadCheckbox.id = 'read';
   toggleReadCheckbox.classList.add('form-group');
   toggleReadCheckbox.classList.add('no-margin-bottom');
   checkboxForm.classList.add('mt-2');

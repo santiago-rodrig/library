@@ -48,26 +48,30 @@ body {
 }
 
 .right-content {
-  padding: 3rem 2rem;
+  padding: 1rem;
+}
+
+.at-bottom {
+  margin-top: 3rem;
+  padding-bottom: 2rem;
 }
 
 @media (min-width: 768px) {
   .left-info {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
+    min-height: 100vh;
     width: 35%;
   }
 
   .right-content {
+    padding: 2rem;
     margin-left: 35%;
     width: 65%;
   }
 
   .at-bottom {
-    position: absolute;
-    bottom: 3rem;
-    left: 2rem;
+    margin-top: 4rem;
   }
 }
