@@ -20,6 +20,16 @@ An demo of the working project follows.
 First of all, you'll need `node`, which comes with `npm`, visit
 [this link](https://nodejs.org/es/download/) to get it.
 
+Second, install the project dependencies.
+
+```shell
+npm install
+```
+
+And you are done.
+
+### Warning
+
 Because this project uses **webpack**, after any change to the files under
 `src` you need to run `npx webpack` to make the bundle again, this is, rebuild
 the file `dist/main.js`.
