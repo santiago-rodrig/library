@@ -1,5 +1,3 @@
-import Book from './book';
-
 function setBookFromForm(newBookForm) {
   const title = newBookForm.querySelector('#title').value;
   const author = newBookForm.querySelector('#author').value;
@@ -28,21 +26,8 @@ function clearFieldsAndHide() {
   return null;
 }
 
-function createBookFromString(string) {
-  const bookValues = string.split(',');
-  const title = bookValues[0];
-  const author = bookValues[1];
-  const pages = Number(bookValues[2]);
-  let read = bookValues[3];
-  read = read === 'false' ? false : true;
-  const book = new Book(title, author, pages);
-  book.read = read;
-
-  return book;
-}
-
 function updateReadStatusInStorage(index) {
-  let library = localStorage.getItem('library').split(';');
+  const library = localStorage.getItem('library').split(';');
   let bookValues = library[index];
   bookValues = bookValues.split(',');
   const isTrue = bookValues[bookValues.length - 1] === 'true';
@@ -85,7 +70,8 @@ function appendReadToggleToRow(bookRow, bookRead = false) {
 }
 
 function updateIndices(index) {
-  let bookRow, library;
+  let bookRow; let
+    library;
   library = localStorage.getItem('library');
   library = library.split(';');
 
@@ -186,7 +172,7 @@ function appendToStorage(book) {
 function appendBookToBookShelf(
   book,
   index = null,
-  alreadyStored = false
+  alreadyStored = false,
 ) {
   const bookShelf = document.getElementById('library');
 
@@ -219,7 +205,7 @@ function toggleNewBookForm() {
 }
 
 function purifyLibrary() {
-  library = localStorage.getItem('library');
+  const library = localStorage.getItem('library');
 
   if (!library) return null;
 
