@@ -42,16 +42,16 @@
       <div class="bg-dark form-container mt-4">
         <form id="new-book-form">
           <div class="form-group">
-            <label for="name" class="text-light">Name</label>
-            <input type="text" id="title" class="form-control form-control-lg" required>
+            <label for="title" class="text-light">Name</label>
+            <input type="text" id="title" name="title" class="form-control form-control-lg">
           </div>
           <div class="form-group">
             <label for="author" class="text-light">Author</label>
-            <input type="text" id="author" class="form-control form-control-lg" required>
+            <input type="text" id="author" name="author" class="form-control form-control-lg">
           </div>
           <div class="form-group">
             <label for="pages" class="text-light">Number of pages:</label>
-            <input type="number" id="pages" class="form-control form-control-lg" required>
+            <input type="number" id="pages" name="pages" class="form-control form-control-lg">
           </div>
           <div class="form-group center-both mt-4">
             <input type="submit" id="new-book-create" class="btn btn-success mr-2" value="Add">
